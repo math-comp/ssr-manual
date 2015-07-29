@@ -1,4 +1,4 @@
-## A Small Scale Reflection Extension for the Coq system
+### A Small Scale Reflection Extension for the Coq system
 
 This is the user manual of SSReflect, a set of extensions to the proof
 scripting language of the Coq proof assistant. While these extensions were

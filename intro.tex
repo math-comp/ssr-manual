@@ -15,7 +15,7 @@ under the explicit, fine-grained control of the proof script.
 
 The efficiency of small-scale reflection hinges on the fact that
 fixing a particular symbolic representation strongly directs the
-behaviour of a theorem-prover:
+behavior of a theorem-prover:
 
 \begin{itemize}
 \item Logical case analysis is done by
@@ -29,7 +29,7 @@ representation describes what should be done in each case.
 \end{itemize}
 
 Thus by controlling the representation we also control the automated
-behaviour of the theorem prover, which can be quite complex,
+behavior of the theorem prover, which can be quite complex,
 for example if a predicate is represented by a sophisticated decision
 procedure. The real strength of small-scale reflection, however, is
 that even very simple representations provide useful procedures. For
@@ -55,7 +55,7 @@ Bookkeeping steps manage the proof context, introducing, renaming,
 discharging, or splitting constants and assumptions. Case-splitting on
 symbolic representations is an efficient way to drive the prover
 engine, because most of the data required for the splitting can be
-retrieved from the representation type, and because specialising a
+retrieved from the representation type, and because specializing a
 single representation often triggers the evaluation of several
 representation functions.
 \item Rewriting steps use equations to locally
@@ -81,11 +81,11 @@ reflection proofs. It is heavily biased towards backward steps, with
 little support for forward steps, or even script layout (these are
 deferred to the "vernacular", i.e., \C{Section}/\C{Module} layer of
 the input language). The support for rewriting is primitive, requiring
-a separate tactic for each kind of basic step, and the behaviour of
+a separate tactic for each kind of basic step, and the behavior of
 subterm selection is undocumented. Many of the basic tactics, such as
 \C{intros}, \C{induction} and \C{inversion}, implement fragile context
 manipulation heuristics which hinder precise bookkeeping; on the other
-hand the under-utilised "intro patterns" provide excellent support for
+hand the under-utilized "intro patterns" provide excellent support for
 case splitting.
 
 The extensions presented here were designed to improve the
@@ -129,7 +129,7 @@ The syntax of the tactics is presented as follows:
 \item A non empty list of non terminals (at least one item should be
   present) is represented by $\N{non terminals}^+$. A possibly empty
   one is represented by $\N{non terminals}^*$.
-\item In a list of non terminals, items are separated by blanks.
+\item In a non empty list of non terminals, items are separated by blanks.
 \end{itemize}
 
 

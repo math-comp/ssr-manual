@@ -37,14 +37,14 @@ $$\C{Search}\ [\N{pattern}]\ [\ [\C{\-}][\ \N{string}[\C{\%}\N{key}]\
 % \end{lstlisting}
 % is hence a way of obtaining the complete signature of the module \L{M}.
 % \end{itemize}
-where $\N{name}$ is the name of a open module.
-This command searches returns the list of lemmas:
+where $\N{name}$ is the name of an open module.
+This command search returns the list of lemmas:
 \begin{itemize}
 \item whose \emph{conclusion} contains a subterm matching the optional
   first $\N{pattern}$. A $\C{-}$ reverses the test, producing the list
   of lemmas whose conclusion does not contain any subterm matching
   the pattern;
-\item whose name contains the given strings. A $\C{-}$ prefix reverses
+\item whose name contains the given string. A $\C{-}$ prefix reverses
   the test, producing the list of lemmas whose name does not contain the
   string. A string that contains symbols or
 is followed by a scope $\N{key}$, is interpreted as the constant whose
@@ -52,11 +52,11 @@ notation involves that string (e.g., \L=+= for \L+addn+), if this is
 unambiguous; otherwise the diagnostic includes the output of the
 \C{Locate} standard vernacular command.
 
-\item whose statement, including assumptions and types contains a
+\item whose statement, including assumptions and types, contains a
   subterm matching the next patterns. If a pattern is prefixed by
   $\C{-}$, the test is reversed;
 \item contained in the given list of modules, except the ones in the
-  given modules prefixed by a $\C{-}$.
+  modules prefixed by a $\C{-}$.
 \end{itemize}
 
 Note that:

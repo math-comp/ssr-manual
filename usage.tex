@@ -1,7 +1,7 @@
 \section{Distribution}
 
 \subsection{Files}\label{sec:files}
-The Ssreflect package distributes the implementation of the
+The \ssr{} package distributes the implementation of the
 small-scale reflection extension. It comprises
 two Caml extension modules ({\tt ssreflect.ml4} and {\tt
   ssrmatching.ml4}), which provides the tactic language, as well as several
@@ -46,8 +46,8 @@ in particular:
 \L+rewrite .. in (type of k)+ or \\ \L+rewrite .. in *+ or any other
 variant of \L+rewrite+ will not work, and the \ssr{} syntax and semantics for occurrence selection and
 rule chaining is different.
-% Moreover \ssr{} looks for redexes more aggressively than $\mathcal{L}$-tac.
-Use an explicit rewrite direction (\L+rewrite <-+ ... or \L+rewrite ->+ ...)
+% Moreover \ssr{} looks for redexes more aggressively than \Ltac{}.
+Use an explicit rewrite direction (\L+rewrite <-+ $\dots$ or \L+rewrite ->+ $\dots$)
 to access the \Coq{} \L+rewrite+ tactic.
 \item New symbols (\L+//, /=, //=+) might clash with adjacent symbols
 (e.g., '\L+//+') instead of '$/$''$/$'). This can be avoided by
@@ -70,7 +70,8 @@ and \L+pose+.
 \item The generalization of \L+if+ statements to non-Boolean
 conditions is turned off by \ssr{}, because it is mostly subsumed by
 \L+Coercion+ to \L+bool+ of the \L+sum+XXX types (declared in
-\L+ssrfun.v+) and the \L+if ... is+ construct (see
+\L+ssrfun.v+) and the \C{if $\ \N{term}\ $ is $\ \N{pattern}\ $
+  then $\ \N{term}\ $ else $\ \N{term}\ $} construct (see
 \ref{ssec:patcond}). To use the generalized form, turn off the \ssr{}
 Boolean \L+if+ notation using the command:
 \begin{lstlisting}

@@ -8,7 +8,7 @@ such as selecting the names of constants and assumptions or splitting
 conjuncts. Indeed, \ssr{} scripts appear to divide evenly between
 bookkeeping, formal algebra (rewriting), and actual
 deduction. Although they are logically trivial, bookkeeping steps are
-extremely important because they define the structure of the dataflow
+extremely important because they define the structure of the data-flow
 of a proof script. This is especially true for reflection-based
 proofs, which often involve large numbers of constants and
 assumptions.  Good bookkeeping consists in always explicitly declaring
@@ -95,7 +95,7 @@ Now \C{move} does essentially nothing: it is mostly a placeholder for
 definitions, and assumptions to the context, while the `\C{:}'
 tactical moves facts and constants to the goal. For example, the proof
 of\footnote{The name \C{subnK} reads as
-``right cancellation rule for \C{nat} substraction''.}
+``right cancellation rule for \C{nat} subtraction''.}
 \begin{lstlisting}
   Lemma |*subnK*| : forall m n, n <= m -> m - n + n = m.
 \end{lstlisting}
@@ -192,7 +192,7 @@ by induction on the top variable \C{m} with
 \end{lstlisting}
 
 \noindent
-The general form of the localisation tactical \C{in} is also best
+The general form of the localization tactical \C{in} is also best
 explained in terms of the goal stack:
 \begin{lstlisting}
   /*tactic*/ in a H1 H2 *.
@@ -237,7 +237,7 @@ exposes the first assumption in the goal, i.e. its changes the goal
 
 More precisely, the \C{move} tactic inspects the goal and does nothing
 (\C{idtac}) if an introduction step is possible, i.e. if the
-goal is a product or a \L+let ... in+, and performs \C{hnf}
+goal is a product or a \L+let $\dots$ in+, and performs \C{hnf}
 otherwise.
 
 Of course this tactic is most often used in combination with the
@@ -261,8 +261,8 @@ of its type family indices if it belongs to a type family
 % (co)inductive type has only one
 % constructor and no family indices.
 
-The \ssr{} \C{case} tactic has a special behaviour on
-equalities.\footnote{The primitive \Coq{} behaviour, rewriting right
+The \ssr{} \C{case} tactic has a special behavior on
+equalities.\footnote{The primitive \Coq{} behavior, rewriting right
 to left, is somewhat counterintuitive.}
 If the top assumption of the goal is an equality, the \C{case} tactic
 ``destructs'' it as a set of equalities between the constructor
@@ -311,7 +311,7 @@ on one hand and
 on the other hand.
 
 
-\subsubsection*{The \C{apply} tactic.}\label{sssec:apply} 
+\subsubsection*{The \C{apply} tactic.}\label{sssec:apply}
 The \C{apply} tactic is the main
 backward chaining tactic of the proof system. It takes as argument any
 \C{/*term*/} and applies it to the goal.
@@ -324,7 +324,7 @@ In fact the \ssr{} tactic:
 \end{lstlisting}
 corresponds to the following standard \Coq{} tactic:
 \begin{lstlisting}
-  intro top; first [refine top | refine (top _) |  refine (top _ _) | $...$]; clear top.
+  intro top; first [refine top | refine (top _) |  refine (top _ _) | $\dots$]; clear top.
 \end{lstlisting}
 where \C{top} is fresh name, and the sequence of \C{refine} tactics
 tries to catch the appropriate number of wildcards to be inserted.
@@ -335,7 +335,7 @@ tries to match the goal up to expansion of
 constants and evaluation of subterms.
 
 \ssr{}'s \C{apply} handles goals containing existential metavariables of sort
-\C{Prop} in a different way than standard Coq's \C{apply}.  Consider the
+\C{Prop} in a different way than standard \Coq{}'s \C{apply}.  Consider the
 following example:
 \begin{lstlisting}
 Goal (forall y, 1 < y -> y < 2 -> exists x : 'I_3, x > 0).
@@ -344,52 +344,32 @@ move=> y y_gt1 y_lt2; apply: (ex_intro _ (@Ordinal _ y _)).
 by move=> y_lt3; apply: leq_trans _ y_gt1.
 \end{lstlisting}
 Note that the last \C{_} of the tactic \C{apply: (ex_intro _ (@Ordinal _ y _))}
-represents a proof that \C{y < 3}. Instead of generating the following 
+represents a proof that \C{y < 3}. Instead of generating the following
 goal
 \begin{lstlisting}
    0 < Ordinal (n:=3) (m:=y) ?54
 \end{lstlisting}
 \noindent the system tries to prove \C{y < 3} calling the \C{trivial}
-tactic. If it succeeds, let's say because the context contains 
+tactic. If it succeeds, let's say because the context contains
 \C{H : y < 3}, then the system generates the following goal:
 \begin{lstlisting}
    0 < Ordinal (n:=3) (m:=y) H
 \end{lstlisting}
-\noindent Otherwise the missing proof is considered to be irrelevant, and 
+\noindent Otherwise the missing proof is considered to be irrelevant, and
 is thus discharged generating the following goals:
 \begin{lstlisting}
    y < 3
    forall Hyp0 : y < 3, 0 < Ordinal (n:=3) (m:=y) Hyp0
 \end{lstlisting}
 Last, the user can replace the \C{trivial} tactic by defining
-an $\mathcal{L}$-tac expression named \C{ssrautoprop}.
-
-% The combination of the \C{apply} tactic with the discharge tactical
-% \C{:} has a special interest, see section \ref{ssec:discharge}.
-
-
-% \ssr{} also offers an
-% extension \C{apply:} of the standard \Coq{} tactic.
-% The \ssr{} tactic:
-% \begin{lstlisting}
-%   apply: H x.
-% \end{lstlisting}
-% corresponds indeed to the following standard \Coq{} tactic:
-% \begin{lstlisting}
-%   refine (@H _ ... _ x); try clear H; try clear x.
-% \end{lstlisting}
-% where the number of possible wildcards to be inserted in
-% \C{(@H _ ... _ x)} is guessed using \C{H} and the goal.
-% This is specially useful when \C{x} is an implicit parameter of the
-% type of \C{H}, whatever its position may be in the list of \C{H}'s
-% implicit arguments.
+an \Ltac{} expression named \C{ssrautoprop}.
 
 
 \subsection{Discharge}\label{ssec:discharge}
 The general syntax of the discharging tactical `\C{:}' is:
 \begin{displaymath}
 \N{tactic}\ [\N{ident}]
-            \C{:}\ \N{d-item}_1\ ...\ \N{d-item}_n\ [\N{clear-switch}]
+            \C{:}\ \N{d-item}_1\ \dots \ \N{d-item}_n\ [\N{clear-switch}]
 \end{displaymath}
 where $n > 0$, and $\N{d-item}$ and $\N{clear-switch}$ are defined as
 \begin{eqnarray*}
@@ -467,11 +447,11 @@ where the name \C{n0} is picked by the \Coq{} display function,
 and assuming \C{n} appeared only in~\C{G}.
 
 Finally, note that a discharge operation generalizes defined constants
-as variables, and not as local definitions. To override this behaviour, 
+as variables, and not as local definitions. To override this behavior,
 prefix the name of the local definition with a \C{@},
 like in \C{move: @n}.
 
-This is in contrast with the behaviour of the \C{in} tactical (see section
+This is in contrast with the behavior of the \C{in} tactical (see section
 \ref{ssec:gloc}), which preserves local definitions by default.
 
 \subsubsection*{Clear rules}
@@ -510,12 +490,12 @@ Therefore, $\N{occur switch}$es are not needed for \L+apply+ and \L+exact+.
 Indeed, the \ssr{} tactic \L+apply: H x+
 is equivalent to the standard \Coq{} tactic
 \begin{lstlisting}
-  refine (@H _ $...$ _ x); clear H x
+  refine (@H _ $\dots$ _ x); clear H x
 \end{lstlisting}
 with an appropriate number of wildcards between \L+H+ and~\L+x+.
 
 Note that this means that matching for \L+apply+ and \L+exact+ has
-much more context to interpret wildcards; in particular it can accomodate
+much more context to interpret wildcards; in particular it can accommodate
 the `\C{_}' $\N{d-item}$, which would always be rejected after `\L+move:+'.
 For example, the tactic
 \begin{lstlisting}
@@ -531,8 +511,8 @@ and this is a common idiom for applying transitivity on the left hand side
 of an equation.
 
 \subsubsection*{The \C{abstract} tactic}\label{ssec:abstract}
-The \C{abstract} assigns an abstract constant previosly introduced with
-the \C{[: name ]} intro pattern (see section~\ref{ssec:intro}, 
+The \C{abstract} assigns an abstract constant previously introduced with
+the \C{[: name ]} intro pattern (see section~\ref{ssec:intro},
 page~\pageref{ssec:introabstract}).
 In a goal like the following:
 \begin{lstlisting}
@@ -568,7 +548,7 @@ The application of a tactic to a given goal can generate
 \emph{introduce} as new facts, constants or defined constants, respectively.
 If the tactic splits the goal into several subgoals,
 each of them may require the introduction of different constants and facts.
-Furthermore it is very common to immediately destructure
+Furthermore it is very common to immediately decompose
 or rewrite with an assumption instead of adding it to the context,
 as the goal can often be simplified and even
 proved after this.
@@ -581,13 +561,13 @@ All these operations are performed by the introduction tactical
 \end{displaymath}
 where $\N{tactic}$ can be any tactic, $n > 0$ and
 \begin{eqnarray*}
-  \N{i-item}& \equiv& 
+  \N{i-item}& \equiv&
     \N{i-pattern} \;|\; \N{s-item} \;|\; \N{clear-switch} \;|\; \C{/}\N{term} \\
   \N{s-item}& \equiv& \C{/=} \;|\; \C{//} \;|\; \C{//=} \\
   \N{i-pattern}& \equiv&
-           \N{ident} \;|\; \C{_} \;|\; \C{?} \;|\; \C{*}\;|\; 
+           \N{ident} \;|\; \C{_} \;|\; \C{?} \;|\; \C{*}\;|\;
            [\N{occ-switch}]\C{->} \;|\; [\N{occ-switch}]\C{<-} \;|\; \\
-   &&      \C{[} \N{i-item}^*_1 \;\C{|}\;...\;\C{|}\;\N{i-item}^*_m \C{]}
+   &&      \C{[} \N{i-item}^*_1 \;\C{|}\;\dots ;\C{|}\;\N{i-item}^*_m \C{]}
 	   \;|\;\C{-}\;|\;\C{[:}\N{ident}^+\C{]}
 \end{eqnarray*}
 %subject to the condition that at least every other $\N{i-item}$ should
@@ -617,11 +597,11 @@ An $\N{s-item}$ can simplify the set of subgoals or the subgoal themselves:
 When an $\N{s-item}$ bears a $\N{clear-switch}$, then the $\N{clear-switch}$ is
 executed \emph{after} the $\N{s-item}$, e.g., \L|{IHn}//| will solve
 some subgoals, possibly using the fact \L|IHn|, and will erase \L|IHn|
-from the context of the remaining subgoals. 
+from the context of the remaining subgoals.
 
-The last entry in the $\N{i-item}$ grammar rule, \C{/}$\N{term}$, 
+The last entry in the $\N{i-item}$ grammar rule, \C{/}$\N{term}$,
 represents a view (see section~\ref{sec:views}). If $\N{i-item}_{k+1}$
-is a view $\N{i-item}$, the view is appplied to the assumption in top
+is a view $\N{i-item}$, the view is applied to the assumption in top
 position once $\N{i-item}_1 \dots \N{i-item}_k$ have been performed.
 
 The view is applied to the top assumption.
@@ -656,26 +636,26 @@ The view is applied to the top assumption.
 a first \C{move=> *} adds only \C{_a_ : bool} and \C{_b_ : bool} to
 the context; it takes a second \C{move=> *} to add
 \C{_Hyp_ : _a_ = _b_}.
-\item $[\N{occ-switch}]$\C{->} (resp. $[\N{occ-switch}]$\C{<-}) 
+\item $[\N{occ-switch}]$\C{->} (resp. $[\N{occ-switch}]$\C{<-})
   pops the top assumption
   (which should be a rewritable proposition) into an anonymous fact,
   rewrites (resp. rewrites right to left) the goal with this fact
   (using the \ssr{} \C{rewrite} tactic described in section~\ref{sec:rw},
-  and honouring the optional occurrence selector),
+  and honoring the optional occurrence selector),
   and finally deletes the anonymous fact from the context.
-\item\C{[ $\N{i-item}^*_1$ | $...$ | $\N{i-item}^*_m$ ]},
+\item\C{[ $\N{i-item}^*_1$ | $\dots$ | $\N{i-item}^*_m$ ]},
    when it is the very \emph{first} $\N{i-pattern}$ after $\N{tactic}\;\C{=>}$
    tactical \emph{and} $\N{tactic}$ is not a \C{move}, is a \emph{branching}
    $\N{i-pattern}$. It executes
    the sequence $\N{i-item}^*_i$ on the $i^{\rm th}$
    subgoal produced by $\N{tactic}$. The execution of $\N{tactic}$
    should thus generate exactly $m$
-   subgoals, unless the \C{[$...$]} $\N{i-pattern}$ comes after an initial
+   subgoals, unless the \C{[$\dots$]} $\N{i-pattern}$ comes after an initial
    \C{//} or \C{//=} $\N{s-item}$ that closes some of the goals produced by
    $\N{tactic}$, in which case exactly $m$ subgoals should remain after the
    $\N{s-item}$, or we have the trivial branching $\N{i-pattern}$ \C{[]},
    which always does nothing, regardless of the number of remaining subgoals.
-\item\C{[ $\N{i-item}^*_1$ | $...$ | $\N{i-item}^*_m$ ]}, when it is
+\item\C{[ $\N{i-item}^*_1$ | $\dots$ | $\N{i-item}^*_m$ ]}, when it is
    \emph{not} the first $\N{i-pattern}$ or when $\N{tactic}$ is a
    \C{move}, is a \emph{destructing} $\N{i-pattern}$.  It starts by
    destructing the top variable, using the \ssr{} \C{case} tactic
@@ -691,8 +671,8 @@ the context; it takes a second \C{move=> *} to add
    to pop the variables and assumptions corresponding to each constructor,
    this is not enforced by \ssr{}.
 \item\C{-} does nothing, but counts as an intro pattern. It can be used to
-   force the interpretation of 
-   \C{[ $\N{i-item}^*_1$ | $...$ | $\N{i-item}^*_m$ ]}
+   force the interpretation of
+   \C{[ $\N{i-item}^*_1$ | $\dots$ | $\N{i-item}^*_m$ ]}
    as a case analysis like in \C{move=> -[H1 H2]}. It can be used to
    visually link a view with a name like in \C{move=> /eqP-H1}. Last,
    it can serve as a separator between views. In section~\ref{ssec:multiview}
@@ -703,14 +683,24 @@ the context; it takes a second \C{move=> *} to add
    the type displayed is \C{<hidden>}.\label{ssec:introabstract}
 \end{itemize}
 Note that \ssr{} does not support the alternative \Coq{} syntax
-$\C{(}\N{ipat}\C{,}...\C{,}\N{ipat}\C{)}$ for destructing intro-patterns.
+$\C{(}\N{ipat}\C{,}\dots\C{,}\N{ipat}\C{)}$ for destructing intro-patterns.
 
 Clears are deferred until the end of the intro pattern. For
-example, given the goal \\
-\C{0 < x -> (0 < x) \&\& (y < 2)}, the tactic \C{move=>
-\{x\} ->} successfully rewrites the goal and deletes \C{x} and the anonymous
-equation. If the cleared names are reused in the same intro pattern, a renaming
-is performed behind the scenes. 
+example, given the goal:
+\begin{lstlisting}
+x, y : nat
+==================
+0 < x = true -> (0 < x) && (y < 2) = true
+\end{lstlisting}
+the tactic \C{move=> \{x\} ->} successfully rewrites the goal and
+deletes \C{x} and the anonymous equation. The goal is thus turned into:
+\begin{lstlisting}
+y : nat
+==================
+true && (y < 2) = true
+\end{lstlisting}
+If the cleared names are reused in the same intro pattern, a renaming
+is performed behind the scenes.
 
 Facts mentioned in a clear switch must be valid
 names in the proof context (excluding the section context),
@@ -727,8 +717,8 @@ The rules above imply that
   case=> a b.
 \end{lstlisting}
 are all equivalent, so which one to use is a matter of style;
-\C{move} should be used for casual decompositions,
-such as splitting a pair, and \C{case} should be used for actual destructions,
+\C{move} should be used for casual decomposition,
+such as splitting a pair, and \C{case} should be used for actual decompositions,
 in particular for type families (see~\ref{ssec:typefam})
 and proof by contradiction.
 
@@ -755,7 +745,7 @@ adds the fact \C{En : size l = n} to the context.
   pose n := (size l).
 \end{lstlisting}
 which generates a definition \C{n := (size l)}. It is not possible to
-generalise or
+generalize or
 rewrite such a definition; on the other hand, it is automatically
 expanded during
 computation, whereas expanding the equation \C{En} requires explicit
@@ -849,7 +839,7 @@ discharge operations.
 
 Every $\N{d-item}$ preceding the \C{/} is interpreted as arguments of this
 type, which should be an instance of an inductive type family. These terms are
-not actually generalised, but rather selected for substitution. Occurrence
+not actually generalized, but rather selected for substitution. Occurrence
 switches can be used to restrict the substitution.  If a $\N{term}$ is left
 completely implicit (e.g. writing just $\C{\_}$), then a pattern is inferred
 looking at the type of the top assumption.  This allows for the compact syntax

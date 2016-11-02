@@ -22,7 +22,7 @@ construct differs from the latter in that
 \item The pattern can be nested (deep pattern matching), in
   particular, this allows expression of the form:
 \begin{lstlisting}
- let: exist (x, y) p_xy := Hp in ...
+ let: exist (x, y) p_xy := Hp in $\dots$
 \end{lstlisting}
 \item The destructured constructor is explicitly given in the
   pattern, and is used for type inference, e.g.,
@@ -40,9 +40,10 @@ The \C{let:} construct is just (more legible) notation for the primitive Gallina
   match $\N{term}_1$ with $\N{pattern}$ => $\N{term}_2$ end
 \end{lstlisting}
 Due to limitations of the \Coq{} v8 display API, a \C{let:} expression
-will always be displayed with the \Coq{} v8.2 \L+let 'C ...+ syntax, which
-does not handle user notation and clashes with the lexical conventions of the
-\ssr{} library.
+will always be displayed with the \Coq{} v8.2 \L+let 'C $\dots$+ syntax
+(see the \Coq{} documentation of the destructuring \C{let}
+syntax). Unfortunately, this syntax does not handle user notation and
+clashes with the lexical conventions of the \ssr{} library.
 
 The \ssr{} destructuring assignment supports all the dependent match
 annotations; the  full syntax is
@@ -70,7 +71,7 @@ because most such functions manipulate simple datatypes such as Peano
 integers, options,
 lists, or binary trees, and the pattern conditional above is almost
 always the right construct
-for analysing such simple types. For example, the \C{|*null*|} and
+for analyzing such simple types. For example, the \C{|*null*|} and
 \C{|*all*|} list function(al)s can be defined as follows:
 \begin{lstlisting}
   Variable d: Set.
@@ -92,7 +93,7 @@ in terms of primitive \C{match} expressions (where the default
 expression $\N{term}_3$ may be replicated).
 
 
-Explicit pattern testing also largely subsumes the generalisation of
+Explicit pattern testing also largely subsumes the generalization of
 the \C{if} construct to all binary datatypes; compare:
 \begin{lstlisting}
   if $\N{term}$ is inl _ then $\N{term}_l$ else $\N{term}_r$
@@ -117,8 +118,9 @@ the command:
 \begin{lstlisting}
   Close Scope boolean_if_scope.
 \end{lstlisting}
-Like \C{let:} above, the \C{if$\dots$is} construct supports the dependent
-\C{match} annotations:
+Like \C{let:} above, the \C{if $\ \N{term}\ $ is $\ \N{pattern}\ $
+  else $\ \N{term}$} construct
+supports the dependent \C{match} annotations:
 \begin{lstlisting}
   if $\N{term}_1$ is $\N{pattern}_1$ as $\N{ident}$ in $\N{pattern}_2$ return $\N{term}_2$
     then $\N{term}_3$
@@ -181,7 +183,7 @@ constant, whose implicit arguments are prenex, i.e., the first $n_i >
 \L+Maximal Implicit+ status to these arguments.
 
 As these prenex implicit arguments are ubiquitous and have often large
-diaplay strings, it is strongly recommended to change the default
+display strings, it is strongly recommended to change the default
 display settings of \Coq{} so that they are not printed (except after a
 \C{$\texttt{\textcolor{dkviolet}{Set }}$ Printing All} command).
 All \ssr{} library files thus start with the incantation
@@ -210,7 +212,7 @@ the \Coq{} standard {\tt List} library.
 \subsection{Wildcards}\label{ssec:wild}
 
 As in standard Gallina, the terms passed as arguments
-to \ssr{} tactics can contain \emph{holes}, materialised by wildcards
+to \ssr{} tactics can contain \emph{holes}, materialized by wildcards
 \C{_}.
 Since \ssr{} allows a more powerful form of type inference for these
 arguments, it enhances the possibilities of using such wildcards.

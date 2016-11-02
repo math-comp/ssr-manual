@@ -158,7 +158,7 @@ structure rather that having to supply it explicitly. This notation
 should always be preferred to the type itself. Hence one should always
 use \L+{poly R}+, rather than \L+(polynomial R_ringType)+, when
 \L+R_ringType+ would be the ring structure with carrier \L+R+. If this
-\L+R_ringType+structure is canonical, it will automatically be
+\L+R_ringType+ structure is canonical, it will automatically be
 inferred in \L+{poly R}+.
 
 \subsection{\ssr{} proving guidelines}
@@ -209,14 +209,14 @@ Here are a few tips to write proofs using \ssr{}.
    available notations.
 
 
-\item {\bf How to write operators symbols.} For sake of readability,
-  operators symbols should
+\item {\bf How to write operator symbols.} For sake of readability,
+  operator symbols should
   be separated from their arguments by spaces, like in \L+x * y+ or
   \texttt{a (+)  b}.
   Perhaps more importantly,  this should prevent
   \Coq{} from confusing them with multi-characters notations.
 
-\item {\bf How to write a partial application w.r.t. to the {\it second}
+\item {\bf How to write a partial application w.r.t. the {\it second}
     argument.}
 The {\tt fun } library provides a convenient ``placeholder'' notation
 for such abstractions:
@@ -259,7 +259,7 @@ for such abstractions:
 \item {\bf Lines of tactics in a proof.} Tactics should be chained on
   the whole line using the semi-colon (or chained rewriting steps for
   instance), but a block between two points should never take more
-  than one line. This often helps lines having a semantic unity.
+  than one line. This often helps to have lines with a semantic unity.
 
   Start a new line each time you start a new subgoal
   proof, or use a forward chaining tactic, or state a local definition
@@ -436,9 +436,9 @@ the present distribution, and their interdependencies. % Blue, starred
 % brown unstarred box or on \L+Type+ in an untyped, classical setting.
 
 The definition of each of these interfaces obeys a systematic
-pattern. However, unless the user wants to add a new structure to this
+pattern. However, unless the user wants to add a new structure to
 this picture, it should not be necessary to delve into the details of
-these definition. On the other hand, this systematic way of defining
+these definitions. On the other hand, this systematic way of defining
 the interfaces leads to a systematic way of populating them. Please
 refer to comments in the files for the rationale of each interface and
 for a review of the constructions provided.

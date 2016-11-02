@@ -1,12 +1,12 @@
 \section{Views and reflection}\label{sec:views}
 
 The bookkeeping facilities presented in section \ref{sec:book} are
-crafted to ease simultaneous introduction/generalisation of facts and
+crafted to ease simultaneous introductions and generalizations of facts and
 casing,
-naming ... operations. It also a common practise to make a stack
+naming $\dots$ operations. It also a common practice to make a stack
 operation immediately followed by an \emph{interpretation} of the fact
 being pushed,
-that is to say to apply a lemma to this fact before passing it
+that is, to apply a lemma to this fact before passing it
 to a tactic for decomposition, application and so on.
 
 
@@ -92,31 +92,32 @@ context featuring \C{E : l = nil} and the second to prove
 \C{add_last u v = add_last u v}, in a context containing
 \C{E : l = add_last u v}.
 
-User provided eliminators (potentially generated with the 
-\C{Function} Coq's command) can be combined with the type family switches
-described in section~\ref{ssec:typefam}. Consider an eliminator 
+User provided eliminators (potentially generated with the
+\C{Function} \Coq{}'s command) can be combined with the type family switches
+described in section~\ref{ssec:typefam}. Consider an eliminator
 \C{foo_ind} of type:
 \begin{lstlisting}
-  foo_ind : forall ...., forall x : T, P p$_1$ ... p$_m$
+  foo_ind : forall $\dots$, forall x : T, P p$_1$ $\dots$ p$_m$
 \end{lstlisting}
 and consider the tactic
 \begin{lstlisting}
-  elim/foo_ind: e$_1$ ... / e$_n$
+  elim/foo_ind: e$_1$ $\dots$ / e$_n$
 \end{lstlisting}
-The \C{elim} tactic distinguishes two cases:
+The \C{elim/} tactic distinguishes two cases:
 \begin{description}
-\item[truncated eliminator] when \C{x} does not occur in \C{P p$_1$ ... p$_m$} 
+\item[truncated eliminator] when \C{x} does not occur in \C{P p$_1 \dots$ p$_m$}
   and the type of \C{e$_n$} unifies with \C{T} and \C{e$_n$} is not \C{_}.
   In that case, \C{e$_n$} is passed to the eliminator as the last argument
-  (\C{x} in \C{foo_ind}) and \C{e$_{n-1}$ ... e$_1$} are used as patterns
-  to select in the goal the occurrences that will be bound by the 
-  predicate \C{P}, thus the sub-term of the goal matched by \C{e$_{n-1}$} 
-  must be unifiable with \C{p$_m$}, the one matched by \C{e$_{n-2}$} with
-  \C{p$_{m-1}$} and so on.
-\item[regular eliminator] in all the other cases. Here the term matched by
-  \C{e$_n$} must be unifiable with \C{p$_m$}, the one matched by
-  \C{e$_{n-1}$} must be unifiable with \C{p$_{m-1}$} and so on. Note that 
-  standard eliminators have the shape \C{...forall x, P ... x}, thus
+  (\C{x} in \C{foo_ind}) and \C{e$_{n-1} \dots$ e$_1$} are used as patterns
+  to select in the goal the occurrences that will be bound by the
+  predicate \C{P}, thus it must be possible to unify the sub-term of
+  the goal matched by \C{e$_{n-1}$} with \C{p$_m$}, the one matched by
+  \C{e$_{n-2}$} with \C{p$_{m-1}$} and so on.
+\item[regular eliminator] in all the other cases. Here it must be
+  possible to unify the term matched by
+  \C{e$_n$} with \C{p$_m$}, the one matched by
+  \C{e$_{n-1}$} with \C{p$_{m-1}$} and so on. Note that
+  standard eliminators have the shape \C{$\dots$forall x, P $\dots$ x}, thus
   \C{e$_n$} is the pattern identifying the eliminated term, as expected.
 \end{description}
 As explained in  section~\ref{ssec:typefam}, the initial prefix of
@@ -151,7 +152,7 @@ pattern inferred from the type of the eliminator is used instead.  For both
 cases it is \C{(plus _ _)} and matches the subterm \C{plus (plus x y)$\;$z} thus
 instantiating the latter \C{_} with \C{z}.  Note that the tactic
 \C{elim/plus_ind: y / _} would have resulted in an error, since \C{y} and \C{z}
-do no unify but the type of the eliminator requires the second argument of 
+do no unify but the type of the eliminator requires the second argument of
 \C{P} to be the same as the second argument of \C{plus} in the second
 argument of \C{P}.
 
@@ -179,7 +180,7 @@ big_prop: forall (R : Type) (Pb : R -> Type) (idx : R) (op1 : R -> R -> R),
     Pb (\big[op1/idx]_(i <- r | P i) F i)
 \end{lstlisting}
 Since the pattern for the argument of \C{Pb} is not specified, the inferred one
-is used instead: \C{(\\big[_/_]_(i <- _ | _ i) _ i)}, and after the 
+is used instead: \C{(\\big[_/_]_(i <- _ | _ i) _ i)}, and after the
 introductions, the following goals are generated.
 \begin{lstlisting}
 subgoal 1 is:
@@ -187,7 +188,7 @@ subgoal 1 is:
 subgoal 2 is:
  p %| u * v -> exists2 x : nat * nat, x \in prime_decomp n & p = x.1
 subgoal 3 is:
- (q, e) \in prime_decomp n -> p %| q ^ e -> 
+ (q, e) \in prime_decomp n -> p %| q ^ e ->
    exists2 x : nat * nat, x \in prime_decomp n & p = x.1
 \end{lstlisting}
 Note that the pattern matching algorithm instantiated all the variables
@@ -196,7 +197,7 @@ occurring in the pattern.
 \subsection{Interpreting assumptions}\label{ssec:assumpinterp}
 
 Interpreting an assumption in the context of a proof is applying it a
-correspondence lemma before generalising, and/or decomposing it.
+correspondence lemma before generalizing, and/or decomposing it.
 For instance, with the extensive use of boolean reflection (see
 section \ref{ssec:boolrefl}), it is
 quite frequent to need to decompose the logical interpretation of (the
@@ -268,7 +269,7 @@ script:
   Goal forall a b, P (a || b) -> True.
   move=> a b; move/PQequiv=> HQab.
 \end{lstlisting}
-has the same behaviour as the first example above.
+has the same behavior as the first example above.
 
 The view mechanism can insert automatically a \emph{view hint} to
 transform the double implication into the expected simple implication.
@@ -283,9 +284,9 @@ where:
 \end{lstlisting}
 
 
-\subsubsection*{Specialising assumptions}
+\subsubsection*{Specializing assumptions}
 The special case when the \emph{head symbol} of the view lemma is a
-wildcard is used to interpret an assumption by \emph{specialising}
+wildcard is used to interpret an assumption by \emph{specializing}
 it. The view mechanism hence offers the possibility to
 apply a higher-order assumption to some given arguments.
 
@@ -335,7 +336,7 @@ fail.
 
 \emph{Warning} Goal interpretation view tactics are \emph{not} compatible
 with the bookkeeping tactical \C{=>} since this would be redundant with
-the \C{apply: V=> _} construction.
+the \C{apply: $\N{term}$=> _} construction.
 
 \subsection{Boolean reflection}\label{ssec:boolrefl}
 In the Calculus of Inductive Construction, there is
@@ -347,7 +348,7 @@ information on the structure of their proofs; this information is
 automatically exploited by \Coq{} tactics. For example, \Coq{} knows that a
 proof of \C{A \\/ B} is either a proof of \C{A} or a proof of \C{B}.
 The tactics \C{left} and \C{right} change the goal \C{A \\/ B}
-to \C{A} and \C{B}, respectively; dually, the tactic \C{case} reduces the goal
+to \C{A} and \C{B}, respectively; dualy, the tactic \C{case} reduces the goal
 \C{A \\/ B => G} to two subgoals \C{A => G} and \C{B => G}.
 
 On the other hand, \C{bool} is an inductive \emph{datatype}
@@ -380,7 +381,7 @@ using the coercion mechanism:
   Coercion |*is_true*| (b : bool) := b = true.
 \end{lstlisting}
 This allows any boolean formula~\C{b} to be used in a context
-where \Coq{} would expect a proposition, e.g., after \C{Lemma ... : }.
+where \Coq{} would expect a proposition, e.g., after \C{Lemma $\dots$ : }.
 It is then interpreted as \C{(is_true b)}, i.e.,
 the  proposition \C{b = true}. Coercions are elided by the pretty-printer,
 so they are essentially transparent to the user.
@@ -417,7 +418,7 @@ Expressing logical equivalences through this family of inductive types
 makes possible to take benefit from \emph{rewritable equations}
 associated to the case analysis of \Coq{}'s inductive types.
 
-Since the standard equivalence predicate is defined in Coq{} as:
+Since the standard equivalence predicate is defined in \Coq{} as:
 \begin{lstlisting}
   Definition |*iff*| (A B:Prop) := (A -> B) /\ (B -> A).
 \end{lstlisting}
@@ -477,7 +478,7 @@ The view mechanism is compatible with \C{reflect} predicates.
 
 For example, the script
 \begin{lstlisting}
-  Goal forall a b : bool, a -> b -> a /\ b.
+  Goal forall a b : bool, a -> b -> a /\\ b.
   move=> a b Ha Hb; apply/andP.
 \end{lstlisting}
 changes the goal \C{a /\\ b} to \C{a && b} (see section \ref{ssec:goalinterp}).
@@ -500,16 +501,16 @@ predicate which should be chosen.
 \subsection{General mechanism for interpreting goals and assumptions}
 
 
-\subsubsection*{Specialising assumptions}
+\subsubsection*{Specializing assumptions}
 
 The \ssr{}
 tactic:
 \begin{lstlisting}
-  move/(_ $\N{term}_1$ ... $\N{term}_n$)
+  move/(_ $\N{term}_1 \dots \N{term}_n$)
 \end{lstlisting}
 is equivalent to the tactic:
 \begin{lstlisting}
-  intro top; generalize (top $\N{term}_1$ ... $\N{term}_n$); clear top.
+  intro top; generalize (top $\N{term}_1 \dots \N{term}_n$); clear top.
 \end{lstlisting}
 where \C{top} is a fresh name for introducing the top assumption of
 the current goal.
@@ -547,7 +548,7 @@ There are three steps in the behaviour of an assumption view tactic:
   an instance of the \C{reflect} predicate, it generalises a term of
   the form:
   \begin{lstlisting}
-    ($\N{term}_{vh}$ ($\N{term}_0\ \N{term}_1$ ... $\N{term}_n$))
+    ($\N{term}_{vh}$ ($\N{term}_0\ \N{term}_1 \dots \N{term}_n$))
   \end{lstlisting}
   where the term $\N{term}_{vh}$ inserted is called an
   \emph{assumption interpretation view hint}.
@@ -626,7 +627,7 @@ applied to a goal \C{top} is interpreted in the following way:
   predicate or an equivalence, then
 a \emph{goal interpretation view hint} can possibly be inserted, which
 corresponds to the application of a term
-\C{($\N{term}_{vh}$ ($\N{term}_0$ _ ... _))} to the current
+\C{($\N{term}_{vh}$ ($\N{term}_0$ _ $\dots$ _))} to the current
 goal, possibly inserting implicit arguments.
 \end{itemize}
 
@@ -676,8 +677,11 @@ applied on the same goal \C{\~\~ (b1 || b2)= b3} generates the subgoals
 
 \subsection{Declaring new \C{Hint View}s}\label{ssec:vhints}
 
-The user can declare his own hints for the view mechanism, following
-the syntax used in {\tt ssrbool.v}:
+The database of hints for the view mechanism is extensible via a
+dedicated vernacular command. As library {\tt ssrbool.v} already
+declares a corpus of hints, this feature is probably useful only for
+users who define their own logical connectives. Users can declare
+their own hints following the syntax used in {\tt ssrbool.v}:
 
 \begin{lstlisting}
   Hint View for $\N{tactic}$/ $\N{ident}$[|$\N{num}$].
@@ -705,13 +709,13 @@ double views.
 \subsection{Multiple views}\label{ssec:multiview}
 
 The hypotheses and the goal can be interpreted applying multiple views in
-sequence. Both \C{move} and \C{apply} can be followed by an arbitrary number 
+sequence. Both \C{move} and \C{apply} can be followed by an arbitrary number
 of \C{/}$\N{term}_i$. The main difference between the following two tactics
 \begin{lstlisting}
   apply/v1/v2/v3.
   apply/v1; apply/v2; apply/v3.
 \end{lstlisting}
-is that the former applies all the views to the principal goal. 
+is that the former applies all the views to the principal goal.
 Applying a view with hypotheses generates new goals, and the second line
 would apply the view \C{v2} to all the goals generated by \C{apply/v1}.
 Note that the NO-OP intro pattern \C{-} can be used to separate two
@@ -722,13 +726,13 @@ views, making the two following examples equivalent:
 \end{lstlisting}
 
 The tactic \C{move} can be used together with the \C{in}
-tactical to pass a given hypothesis to a lemma. For example, if 
+tactical to pass a given hypothesis to a lemma. For example, if
 \C{P2Q : P -> Q } and \C{Q2R : Q -> R}, the following
 tactic turns the hypothesis \C{p : P} into \C{P : R}.
 \begin{lstlisting}
   move/P2Q/Q2R in p.
 \end{lstlisting}
 
-If the list of view is of length two, \C{Hint View}s for interpreting
+If the list of views is of length two, \C{Hint View}s for interpreting
 equivalences are indeed taken into account, otherwise only single
 \C{Hint View}s are used.

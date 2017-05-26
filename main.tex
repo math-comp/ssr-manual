@@ -23,7 +23,7 @@
 \usepackage{tabularx}
 \usepackage{graphics}
 %\usepackage[microsoft]{RR}
-\usepackage{RR}
+%\usepackage{RR}
 \usepackage{hyperref}
 \hypersetup{
     colorlinks=true,
@@ -38,65 +38,57 @@
 \input{macro}
 
 
-\RRNo{6455}
-\RRdate{July 2009}
+% \RRNo{6455}
+% \RRdate{July 2009}
 
-%% revisions
-\RRversion{release 1.6}
-\RRdater{November 2016}
+% %% revisions
+% \RRversion{release 1.6}
+% \RRdater{November 2016}
 
-\RCSaclay
-\RRauthor{Georges Gonthier \thanks{Équipe-projet SpecFun, Inria Saclay --
-    Île-de-France , Centre commun Inria Microsoft Research}
-\and
- Assia  Mahboubi \thanks{Équipe-projet SpecFun, Inria Saclay --
-    Île-de-France , Centre commun Inria Microsoft Research}
-\and
- Enrico  Tassi \thanks{Équipe-projet Marelle, Inria Sophia Antipolis --
-    Méditerranée, Centre
-    commun Inria Microsoft Research}
-}
+% \RCSaclay
+\author{Georges Gonthier \and Assia  Mahboubi \and Enrico  Tassi}
+\title{The Ssreflect tactic language}
 
-\authorhead{G. Gonthier \& A. Mahboubi \& E. Tassi}
+% \authorhead{G. Gonthier \& A. Mahboubi \& E. Tassi}
 
-\RRtitle{A Small Scale Reflection Extension for the \Coq{} system}
-\RRetitle{A Small Scale Reflection Extension for the \Coq{} system}
-\titlehead{A Small Scale Reflection Extension for the \Coq{} system}
+% \RRtitle{A Small Scale Reflection Extension for the \Coq{} system}
+% \RRetitle{A Small Scale Reflection Extension for the \Coq{} system}
+% \titlehead{A Small Scale Reflection Extension for the \Coq{} system}
 
-\RRresume{Ce rapport est le manuel de référence de \ssr{},
-une extension du langage de tactiques de l'assistant de preuve
-\Coq{}. Cette extension a été con\c cue
-pour améliorer le support d'une méthodologie de preuve formelle,
-appelée réflexion à petite échelle. Néanmoins, la majeure partie de
-ses apports sont des améliorations d'ordre général des
-fonctionnalités du système \Coq{} comme la structuration des scripts,
-la gestion des contextes de preuve, et la réécriture. C'est pourquoi,
-en dépit du titre de ce document, la plupart des fonctionnalités
-décrites ici sont susceptibles d'intéresser tout utilisateur de \Coq{},
-utilisant ou non les techniques de réflexion à petite échelle.
-}
+% \RRresume{Ce rapport est le manuel de référence de \ssr{},
+% une extension du langage de tactiques de l'assistant de preuve
+% \Coq{}. Cette extension a été con\c cue
+% pour améliorer le support d'une méthodologie de preuve formelle,
+% appelée réflexion à petite échelle. Néanmoins, la majeure partie de
+% ses apports sont des améliorations d'ordre général des
+% fonctionnalités du système \Coq{} comme la structuration des scripts,
+% la gestion des contextes de preuve, et la réécriture. C'est pourquoi,
+% en dépit du titre de ce document, la plupart des fonctionnalités
+% décrites ici sont susceptibles d'intéresser tout utilisateur de \Coq{},
+% utilisant ou non les techniques de réflexion à petite échelle.
+% }
 
-\RRabstract{This is the user manual of \ssr{}, a set of extensions to the proof scripting language of the \Coq{} proof assistant. While these extensions were
-developed to support a particular proof methodology - small-scale
-reflection - most of them actually are of a quite general nature,
-improving the functionality of \Coq{} in basic areas such as script
-layout and structuring, proof context management, and
-rewriting. Consequently, and in spite of the title of this document,
-most of the extensions described here should be of interest for all
-\Coq{} users, whether they embrace small-scale reflection or not.
-}
+% \RRabstract{This is the user manual of \ssr{}, a set of extensions to the proof scripting language of the \Coq{} proof assistant. While these extensions were
+% developed to support a particular proof methodology - small-scale
+% reflection - most of them actually are of a quite general nature,
+% improving the functionality of \Coq{} in basic areas such as script
+% layout and structuring, proof context management, and
+% rewriting. Consequently, and in spite of the title of this document,
+% most of the extensions described here should be of interest for all
+% \Coq{} users, whether they embrace small-scale reflection or not.
+% }
 
-\RRmotcle{assistants à la preuve, preuve formelle, Coq, réflexion à
-  petite échelle, tactiques}
-\RRkeyword{proof assistants, formal proofs, Coq, small scale
-  reflection, tactics}
+% \RRmotcle{assistants à la preuve, preuve formelle, Coq, réflexion à
+%   petite échelle, tactiques}
+% \RRkeyword{proof assistants, formal proofs, Coq, small scale
+%   reflection, tactics}
 
-\RRprojets{Composants Mathématiques, Centre Commun
- INRIA Microsoft Research}
+% \RRprojets{Composants Mathématiques, Centre Commun
+%  INRIA Microsoft Research}
 \begin{document}
 
-\makeRR   % cas d'un rapport de recherche
-\includegraphics[scale=.5]{jointcentre_us}
+% \makeRR   % cas d'un rapport de recherche
+% \includegraphics[scale=.5]{jointcentre_us}
 
 \lstset{language=SSR}
 
@@ -105,13 +97,13 @@ most of the extensions described here should be of interest for all
 %Highlights metalevel expressions in italic rm font
 \lstset{moredelim=*[is][\itshape\rmfamily]{/*}{*/}}
 
-%\maketitle
+\maketitle
 
-\begin{abstract}
-\input{abstract}
-\end{abstract}
-\tableofcontents
-\newpage
+% \begin{abstract}
+% \input{abstract}
+% \end{abstract}
+% \tableofcontents
+% \newpage
 
 \input{intro}
 \input{usage}

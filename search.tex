@@ -1,7 +1,6 @@
 \section{\ssr{} searching tool}
 
-\ssr{} proposes an extension of the \C{Search} command of standard
-\Coq{}. Its syntax is:
+\ssr{} proposes an extension of the \C{Search} command. Its syntax is:
 
 
 $$\C{Search}\ [\N{pattern}]\ [\ [\C{\-}][\ \N{string}[\C{\%}\N{key}]\
@@ -50,7 +49,7 @@ This command search returns the list of lemmas:
 is followed by a scope $\N{key}$, is interpreted as the constant whose
 notation involves that string (e.g., \L=+= for \L+addn+), if this is
 unambiguous; otherwise the diagnostic includes the output of the
-\C{Locate} standard vernacular command.
+\C{Locate} vernacular command.
 
 \item whose statement, including assumptions and types, contains a
   subterm matching the next patterns. If a pattern is prefixed by

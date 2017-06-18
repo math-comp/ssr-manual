@@ -2,7 +2,7 @@
 
 \subsection{Definitions}\label{ssec:pose}
 
-The standard \L+pose+ tactic allows to add a defined constant to a
+The \L+pose+ tactic allows to add a defined constant to a
 proof context. \ssr{} generalizes this tactic in several ways.
 In particular, the \ssr{} \L+pose+ tactic supports \emph{open syntax}:
 the body of
@@ -12,7 +12,7 @@ the definition does not need surrounding parentheses. For instance:
 \end{lstlisting}
 is a valid tactic expression.
 
-The standard \C{pose} tactic is also improved for the
+The \C{pose} tactic is also improved for the
 local definition of higher order terms.
 Local definitions of functions can use the same syntax as
 global ones. The tactic:
@@ -100,12 +100,10 @@ The \ssr{} \L+set+ tactic performs abbreviations: it introduces a
 defined constant for a subterm appearing in the goal and/or in the
 context.
 
-\ssr{} extends the standard \Coq{} \C{set} tactic by supplying:
+\ssr{} extends the \C{set} tactic by supplying:
 \begin{itemize}
 \item an open syntax, similarly to the \L+pose+ tactic;
 \item a more aggressive matching algorithm;
-% (which may cause some
-%  script incompatibilities with standard \Coq{});
 \item an improved interpretation of wildcards, taking advantage of the
   matching algorithm;
 \item an improved occurrence selection mechanism allowing to abstract only
@@ -249,8 +247,7 @@ For instance, the tactic:
 transforms the goal \C{f 2 + f 8 = f 2 + f 2} into
 \C{x + f 8 = f 2  + x}, and adds the abbreviation
 \L+x := f 2+ in the
-context. Notice that, like in standard \Coq{},
- some occurrences of a
+context. Notice that some occurrences of a
 given term may be hidden to the user, for example because of a
 notation. The vernacular \C{$\texttt{\textcolor{dkviolet}{Set }}$
   Printing All} command displays all
@@ -258,8 +255,8 @@ these hidden occurrences and should be used to find the correct
 coding of the occurrences to be selected\footnote{Unfortunately,
 even after a call to the Set Printing All command, some occurrences are
 still not displayed to the user, essentially the ones possibly hidden
-in the predicate of a dependent match structure.}. For instance, both
-in \ssr{} and in standard \Coq{}, the following script:
+in the predicate of a dependent match structure.}. For instance, the
+following script:
 \begin{lstlisting}
   Notation "a < b":= (le (S a) b).
   Goal forall x y, x < y -> S x < S y.

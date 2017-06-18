@@ -33,7 +33,7 @@ using a colon \C{let:}, infers \C{f : nat * nat -> nat}, whereas
 \begin{lstlisting}
   Let f u := let (m, n) := u in m + n.
 \end{lstlisting}
-with a standard \C{let}, requires an extra type annotation.
+with a usual \C{let}, requires an extra type annotation.
 \end{itemize}
 The \C{let:} construct is just (more legible) notation for the primitive Gallina expression
 \begin{lstlisting}
@@ -44,6 +44,7 @@ will always be displayed with the \Coq{} v8.2 \L+let 'C $\dots$+ syntax
 (see the \Coq{} documentation of the destructuring \C{let}
 syntax). Unfortunately, this syntax does not handle user notation and
 clashes with the lexical conventions of the \ssr{} library.
+\todo{Here I really do not know how to say this.}
 
 The \ssr{} destructuring assignment supports all the dependent match
 annotations; the  full syntax is
@@ -108,7 +109,7 @@ requires an explicit annotation term : \C{{_}+{_}} to type-check,
 which evens the character count.
 
 Therefore, \ssr{} restricts by default the condition of a plain \C{if}
-construct to the standard bool type; this avoids spurious type
+construct to the standard \C{bool} type; this avoids spurious type
 annotations, e.g., in:
 \begin{lstlisting}
   Definition |*orb*| b1 b2 := if b1 then true else b2.
@@ -156,7 +157,7 @@ higher-order programming. Implicit arguments are indeed not inferred
 at all points of use, but only at
 points of call, leading to  expressions such as
 \begin{lstlisting}
-  Definition |*all_null*| (s : list d) := all (@null d) s.
+  Definition |*all_null*| (s : list T) := all (@null T) s.
 \end{lstlisting}
 Unfortunately, such higher-order expressions are quite frequent in
 representation functions, especially those which use \Coq{}'s
@@ -199,19 +200,19 @@ not its name, one usually use ``arrow'' abstractions for prenex
 arguments, or the \L+(_ : $\N{term}$)+ syntax for inner arguments.
 In \ssr{}, the latter can be replaced by the open syntax `\L+of $\N{term}$+'
 or (equivalently)  `\L+& $\N{term}$+', which are both syntactically
-equivalent to the standard \Coq{} \L+(_ : $\N{term}$)+ expression.
+equivalent to a \L+(_ : $\N{term}$)+ expression.
 
-Hence the following declaration:
+For instance, the usual two-contrsuctor polymorphic type \L+list+,
+i.e. the one of the
+standard {\tt List} library, can be defined by the following
+declaration:
 \begin{lstlisting}
   Inductive list (A : Type) : Type := nil | cons of A & list A.
 \end{lstlisting}
-defines a type which is syntactically equal to the type \L+list+ of
-the \Coq{} standard {\tt List} library.
-
 
 \subsection{Wildcards}\label{ssec:wild}
 
-As in standard Gallina, the terms passed as arguments
+The terms passed as arguments
 to \ssr{} tactics can contain \emph{holes}, materialized by wildcards
 \C{_}.
 Since \ssr{} allows a more powerful form of type inference for these

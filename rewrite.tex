@@ -3,19 +3,15 @@ The generalized use of reflection implies that most of the
 intermediate results handled are properties of effectively computable
 functions. The most efficient mean of establishing such results are
 computation and simplification of expressions involving such
-functions, i.e., rewriting. We have therefore defined an extended
-\C{rewrite} tactic that unifies and combines most of the rewriting
+functions, i.e., rewriting. \ssr{} therefore includes an extended
+\C{rewrite} tactic, that unifies and combines most of the rewriting
 functionalities.
 \subsection{An extended \C{rewrite} tactic}\label{ssec:extrw}
-The main improvements brought to the standard \Coq{} \C{rewrite}
-tactic are:
+The main features of the \C{rewrite} tactic are:
 \begin{itemize}
-\item Whereas the primitive \C{rewrite} tactic can only perform a
-  single rewriting
-operation in the goal or in the context, the extended \C{rewrite}
-can perform an entire series of such operations in any subset of the
-goal and/or context;
-\item The \ssr{} \C{rewrite} tactic allows to perform rewriting,
+\item  It can perform an entire series of such operations in any
+  subset of the goal and/or context;
+\item It allows to perform rewriting,
   simplifications, folding/unfolding of definitions, closing of goals;
 \item Several rewriting operations can be chained in a single tactic;
 \item Control over the occurrence at which rewriting is to be performed is
@@ -103,8 +99,8 @@ first matching of \textit{term} in the goal. In particular, if
 \begin{lstlisting}
   rewrite /my_def.
 \end{lstlisting}
-is in principle\footnote{The implementation of these fold/unfold tactics does
-  not call standard \Coq{} \C{fold} and \C{unfold}.} equivalent to:
+is analogous to: \todo{But the implementation is different so what to
+  say here?}
 \begin{lstlisting}
   unfold my_def.
 \end{lstlisting}
@@ -190,7 +186,7 @@ is valid.
       \begin{lstlisting}
         rewrite (_ : /*term*/)
       \end{lstlisting}
-      is in fact equivalent to the standard \Coq{}:
+      is in fact synonym of:
       \begin{lstlisting}
         cutrewrite (/*term*/).
       \end{lstlisting}
@@ -210,8 +206,8 @@ is to grasp as many redexes as possible and to let the user select the
 ones to be rewritten thanks to the improved syntax for the control of
 rewriting.
 
-This may be a source of incompatibilities between \ssr{} and standard
-\Coq{}.
+This may be a source of incompatibilities between the two \C{rewrite}
+tactics.
 
 In a rewrite tactic of the form:
 \begin{lstlisting}
@@ -789,8 +785,7 @@ The optional $\N{int}$ forces the number of arguments for which the
 tactic should generate equality proof obligations.
 
 This tactic supports equalities between applications with dependent
-arguments. Anyway as in standard
-\Coq{}, dependent arguments should have exactly the same
+arguments. Yet dependent arguments should have exactly the same
 parameters on both sides, and these parameters should appear as first
 arguments.
 

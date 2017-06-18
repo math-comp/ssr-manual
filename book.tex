@@ -5,9 +5,7 @@
 A sizable fraction of proof scripts consists of steps that do not
 "prove" anything new, but instead perform menial bookkeeping tasks
 such as selecting the names of constants and assumptions or splitting
-conjuncts. Indeed, \ssr{} scripts appear to divide evenly between
-bookkeeping, formal algebra (rewriting), and actual
-deduction. Although they are logically trivial, bookkeeping steps are
+conjuncts. Although they are logically trivial, bookkeeping steps are
 extremely important because they define the structure of the data-flow
 of a proof script. This is especially true for reflection-based
 proofs, which often involve large numbers of constants and
@@ -19,9 +17,9 @@ development environment (IDE), because it facilitates navigating the
 proof, allowing to instantly "jump back" to the point at which a
 questionable assumption was added, and to find relevant assumptions by
 browsing the pruned context.  While novice or casual \Coq{} users may
-find the automatic name selection feature of \Coq{} convenient, this
-feature severely undermines the readability and maintainability of
-proof scripts, much like automatic variable declaration in programming
+find the automatic name selection feature convenient, the usage of
+such a feature severely undermines the readability and maintainability
+of proof scripts, much like automatic variable declaration in programming
 languages. The \ssr{} tactics are therefore designed to support
 precise bookkeeping and to eliminate name generation heuristics.
 The bookkeeping features of \ssr{} are implemented as tacticals (or
@@ -106,9 +104,10 @@ might start with
 where \C{move} does nothing, but \L|=> m n le_m_n| changes the
 variables and assumption of the goal in the constants \C{m n : nat}
 and the fact \L|le_n_m : n <= m|, thus exposing the conclusion\\
- \C{m - n + n = m}. This is exactly what the specialized \Coq{} tactic
-\L|intros m n le_m_n| would do, but `\C{=>}' is much more general
-(see~\ref{ssec:intro}).
+ \C{m - n + n = m}. % This is exactly what the specialized \Coq{} tactic
+% \L|intros m n le_m_n| would do, but `\C{=>}' is much more general
+% (see~\ref{ssec:intro}).
+\todo{Shall we mention \C{intro}?}
 
 The `\C{:}' tactical is the converse of `\C{=>}': it removes facts
 and constants from the context by turning them into variables and assumptions.
@@ -122,8 +121,9 @@ them from the proof context, and changing the goal to
   forall m, n <= m -> m - n + n = m.
 \end{lstlisting}
 which can be proved by induction on \C{n} using \C{elim n}.
-The specialized \Coq{} tactic \C{revert} does exactly this,
-but `\C{:}' is much more general (see~\ref{ssec:discharge}).
+% The specialized \Coq{} tactic \C{revert} does exactly this,
+% but `\C{:}' is much more general (see~\ref{ssec:discharge}).
+\todo{Shall we mention revert?}
 
 \noindent
 Because they are tacticals, `\C{:}' and `\C{=>}' can be combined, as in
@@ -136,12 +136,10 @@ turning these variables back into constants and facts.
 
 Furthermore, \ssr{} redefines the basic \Coq{} tactics \C{case},
 \C{elim}, and \C{apply} so that they can take better advantage of
-'\C{:}' and `\C{=>}'. The \Coq{} tactics lack uniformity in that they
-require an argument from the context but operate on the goal. Their
-\ssr{} counterparts use the first variable or constant of the goal
-instead, so they are ``purely deductive'': they do not use or change
-the proof context. There is no loss since `\C{:}' can readily be used to
-supply the required variable; for instance the proof of \C{subnK} could
+'\C{:}' and `\C{=>}'. In there \ssr{} variants, these tactic operate
+on the first  variable or constant of the goal and they do not use or
+change the proof context. The `\C{:}' tactical is used to operate on
+an element in the context. For instance the proof of \C{subnK} could
 continue with
 \begin{lstlisting}
   elim: n.
@@ -247,8 +245,7 @@ bookkeeping tacticals (see section \ref{ssec:intro} and
 \textcolor{dkblue}{\texttt{pattern}} tactics.
 
 
-\subsubsection*{The \C{case} tactic.} The \C{case} tactic, like in
-standard \Coq{}, performs
+\subsubsection*{The \C{case} tactic.} The \C{case} tactic performs
 \emph{primitive case analysis} on (co)inductive types; specifically,
 it destructs the top variable or assumption of the goal,
 exposing its constructor(s) and its arguments, as well as setting the value
@@ -262,11 +259,10 @@ of its type family indices if it belongs to a type family
 % constructor and no family indices.
 
 The \ssr{} \C{case} tactic has a special behavior on
-equalities.\footnote{The primitive \Coq{} behavior, rewriting right
-to left, is somewhat counterintuitive.}
+equalities.
 If the top assumption of the goal is an equality, the \C{case} tactic
 ``destructs'' it as a set of equalities between the constructor
-arguments of its left and right hand sides, as per the standard \Coq{}
+arguments of its left and right hand sides, as per the
 tactic \C{injection}.
 For example, \C{case} changes the goal
 \begin{lstlisting}
@@ -285,8 +281,8 @@ Hence the command:
 \end{lstlisting}
 on a goal of the form \C{False -> G} will succeed and prove the goal.
 
-\subsubsection*{The \C{elim} tactic.} The \C{elim} tactic, like in
-standard \Coq{} performs inductive elimination on inductive types.
+\subsubsection*{The \C{elim} tactic.} The \C{elim} tactic performs
+inductive elimination on inductive types.
 The defective:
 \begin{lstlisting}
   elim.
@@ -322,20 +318,18 @@ In fact the \ssr{} tactic:
 \begin{lstlisting}
   apply.
 \end{lstlisting}
-corresponds to the following standard \Coq{} tactic:
+is a synonym for:
 \begin{lstlisting}
   intro top; first [refine top | refine (top _) |  refine (top _ _) | $\dots$]; clear top.
 \end{lstlisting}
 where \C{top} is fresh name, and the sequence of \C{refine} tactics
 tries to catch the appropriate number of wildcards to be inserted.
-
-This use of the \C{refine} tactic makes the \ssr{} \C{apply} tactic
-considerably more robust than its standard \Coq{} namesake, since it
+Note that this use of the \C{refine} tactic implies that the tactic
 tries to match the goal up to expansion of
 constants and evaluation of subterms.
 
-\ssr{}'s \C{apply} handles goals containing existential metavariables of sort
-\C{Prop} in a different way than standard \Coq{}'s \C{apply}.  Consider the
+\ssr{}'s \C{apply} has a special behaviour on goals containing
+existential metavariables of sort \C{Prop}.  Consider the
 following example:
 \begin{lstlisting}
 Goal (forall y, 1 < y -> y < 2 -> exists x : 'I_3, x > 0).
@@ -406,12 +400,12 @@ starting with $\N{d-item}_n$:
       described below, is used
       \footnote{Also, a slightly different variant may be used for the first
       $\N{d-item}$ of \C{case} and \C{elim}; see section~\ref{ssec:typefam}.}.
-\item~\label{enum:gen} These occurrences are replaced by a new variable,
-      as per the standard \Coq{} \\\L+revert+ tactic; in particular,
+\item~\label{enum:gen} These occurrences are replaced by a new
+  variable; in particular,
       if $\N{term}$ is a fact, this adds an assumption to the goal.
 \item~\label{enum:clr} If $\N{term}$ is \emph{exactly} the name of a constant
-      or fact in the proof context, it is deleted from the context as
-      per the \Coq{} \C{clear} tactic, unless there is an $\N{occ-switch}$.
+      or fact in the proof context, it is deleted from the context,
+      unless there is an $\N{occ-switch}$.
 \end{enumerate}
 Finally, $\N{tactic}$ is performed just after $\N{d-item}_1$ has been
 generalized ---
@@ -487,8 +481,7 @@ wildcards in the other $\N{d-item}$ and to determine which occurrences of
 these should be generalized.
 Therefore, $\N{occur switch}$es are not needed for \L+apply+ and \L+exact+.
 
-Indeed, the \ssr{} tactic \L+apply: H x+
-is equivalent to the standard \Coq{} tactic
+Indeed, the \ssr{} tactic \L+apply: H x+ is equivalent to
 \begin{lstlisting}
   refine (@H _ $\dots$ _ x); clear H x
 \end{lstlisting}
@@ -578,8 +571,8 @@ where $\N{tactic}$ can be any tactic, $n > 0$ and
 The `\C{=>}' tactical first executes $\N{tactic}$, then the
 $\N{i-item}$s, left to right, i.e., starting from $\N{i-item}_1$.  An
 $\N{s-item}$ specifies a simplification operation; a $\N{clear
-switch}$ specifies context pruning as in~\ref{ssec:discharge}.  The
-$\N{i-pattern}$s are quite similar to \Coq{}'s \emph{intro patterns};
+switch}$ specifies context pruning as in~\ref{ssec:discharge}. The
+$\N{i-pattern}$s can be seen as a variant of \emph{intro patterns}:
 each performs an introduction operation, i.e., pops some variables or
 assumptions from the goal.
 
@@ -589,7 +582,7 @@ An $\N{s-item}$ can simplify the set of subgoals or the subgoal themselves:
       the \ssr{} tactic \C{done} described in~\ref{ssec:termin}, i.e., it
       executes \C{try done}.
 \item \C{/=} simplifies the goal by performing partial evaluation, as
-   per the \Coq{} tactic \C{simpl}.\footnote{Except \C{/=} does not
+   per the tactic \C{simpl}.\footnote{Except \C{/=} does not
    expand the local definitions created by the \ssr{} \C{in} tactical.}
 \item \L+//=+ combines both kinds of simplification; it is equivalent
     to \L+/= //+, i.e., \L+simpl; try done+.
@@ -610,11 +603,11 @@ The view is applied to the top assumption.
 \begin{itemize}
 \item $\N{ident}$ pops the top variable, assumption, or local definition into
       a new constant, fact, or defined constant $\N{ident}$, respectively.
-      As in \Coq{}, defined constants cannot be introduced when
+      Note that defined constants cannot be introduced when
       $\delta$-expansion is required to expose the top variable or assumption.
 \item \C{?} pops the top variable into an anonymous constant or fact,
       whose name is picked by the tactic interpreter.
-      Unlike \Coq, \ssr{} only generates names that
+      \ssr{} only generates names that
       cannot appear later in the user script.\footnote{\ssr{} reserves
       all identifiers of the form ``\C{_x_}'', which is used for such
       generated names.}
@@ -670,20 +663,23 @@ the context; it takes a second \C{move=> *} to add
    While it is good style to use the $\N{i-item}^*_i$
    to pop the variables and assumptions corresponding to each constructor,
    this is not enforced by \ssr{}.
-\item\C{-} does nothing, but counts as an intro pattern. It can be used to
-   force the interpretation of
+\item\C{-} does nothing, but counts as an intro pattern. It can also
+  be used to force the interpretation of
    \C{[ $\N{i-item}^*_1$ | $\dots$ | $\N{i-item}^*_m$ ]}
-   as a case analysis like in \C{move=> -[H1 H2]}. It can be used to
-   visually link a view with a name like in \C{move=> /eqP-H1}. Last,
-   it can serve as a separator between views. In section~\ref{ssec:multiview}
-   it will be explained how \C{move=> /v1/v2} differs from \C{move=> /v1-/v2}.
+   as a case analysis like in \C{move=> -[H1 H2]}. It can also be used
+   to indicate explicitly the link between a view and a like in
+   \C{move=> /eqP-H1}. Last, it can serve as a separator between
+   views. Section~\ref{ssec:multiview} explains in which respect
+   the tactic \C{move=> /v1/v2} differs from the tactic
+   \C{move=> /v1-/v2}.
 \item\C{[: $\N{ident}^+$ ]} introduces in the context an abstract constant
    for each $\N{ident}$.  Its type has to be fixed later on by using
    the \C{abstract} tactic (see page~\pageref{ssec:abstract}).  Before then
    the type displayed is \C{<hidden>}.\label{ssec:introabstract}
 \end{itemize}
-Note that \ssr{} does not support the alternative \Coq{} syntax
-$\C{(}\N{ipat}\C{,}\dots\C{,}\N{ipat}\C{)}$ for destructing intro-patterns.
+Note that \ssr{} does not support the syntax
+$\C{(}\N{ipat}\C{,}\dots\C{,}\N{ipat}\C{)}$ for destructing
+intro-patterns.
 
 Clears are deferred until the end of the intro pattern. For
 example, given the goal:
@@ -703,8 +699,7 @@ If the cleared names are reused in the same intro pattern, a renaming
 is performed behind the scenes.
 
 Facts mentioned in a clear switch must be valid
-names in the proof context (excluding the section context),
-unlike in the standard \C{clear} tactic.
+names in the proof context (excluding the section context).
 
 The rules for interpreting branching and destructing $\N{i-pattern}$
 are motivated by the fact that it would be pointless to have a branching

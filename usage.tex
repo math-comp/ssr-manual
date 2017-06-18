@@ -1,30 +1,22 @@
-\section{Distribution}
+\section{Usage}
 
-\subsection{Files}\label{sec:files}
-The \ssr{} package can be downloaded on the webpage of the
-Mathematical Components project:
+\subsection{Getting started}\label{sec:files}
+% The present manual describes the behavior of
+% the \ssr{} extension after having loaded a minimal set of libraries:
+% {\tt ssreflect.v}, {\tt ssrfun.v} and {\tt ssrbool.v}. For instance,
+% with a standard installation of the \ssr{} package, it is sufficient
+% to execute the following command:
 
-\centerline{\url{https://math-comp.github.io/math-comp/}}
+% \begin{lstlisting}
+%   From mathcomp Require Import ssreflect ssrfun ssrbool.
+% \end{lstlisting}
 
-
-We assume that the reader has installed version \ssrversion{} of the
-\ssr{} package on top of \Coq{} (see the installation instructions
-included in the distribution).
-
-The present manual describes the behavior of
-the \ssr{} extension after having loaded a minimal set of libraries:
-{\tt ssreflect.v}, {\tt ssrfun.v} and {\tt ssrbool.v}. For instance,
-with a standard installation of the \ssr{} package, it is sufficient
-to execute the following command:
-
-\begin{lstlisting}
-  From mathcomp Require Import ssreflect ssrfun ssrbool.
-\end{lstlisting}
-
+\todo{Here should come the prelude incantation which provides the
+  behaviour described in the present manual.}
 
 \subsection{Compatibility issues}\label{sec:compat}
 Every effort has been made to make the small-scale reflection
-extensions upward compatible with the basic \Coq{}, but a few
+extensions upward compatible with the rest of \Coq{}, but a few
 discrepancies were unavoidable:
 \begin{itemize}
 \item New keywords (\C{is}) might clash with variable, constant,
@@ -37,7 +29,7 @@ vernacular notations.
 \item Identifiers with both leading and trailing \L+_+, such as \L+_x_+,
 are reserved by \ssr{} and cannot appear in scripts.
 \item The extensions to the \L+rewrite+ tactic are partly
-incompatible with those now available in current versions of \Coq{};
+incompatible with those available in current versions of \Coq{};
 in particular:
 \L+rewrite .. in (type of k)+ or \\ \L+rewrite .. in *+ or any other
 variant of \L+rewrite+ will not work, and the \ssr{} syntax and semantics for occurrence selection and
@@ -45,28 +37,30 @@ rule chaining is different.
 % Moreover \ssr{} looks for redexes more aggressively than \Ltac{}.
 Use an explicit rewrite direction (\L+rewrite <-+ $\dots$ or \L+rewrite ->+ $\dots$)
 to access the \Coq{} \L+rewrite+ tactic.
-\item New symbols (\L+//, /=, //=+) might clash with adjacent symbols
-(e.g., '\L+//+') instead of '$/$''$/$'). This can be avoided by
-inserting white spaces.
+\item New symbols (\L+//, /=, //=+) might clash with adjacent existing
+  symbols (e.g., '\L+//+') instead of '\L+/+''\L+/+'). This can be avoided
+  by inserting white spaces.
 \item New constant and theorem names might clash with the user
 theory. This can be avoided by not importing all of \ssr{}:
 \begin{lstlisting}
   From mathcomp Require ssreflect.
   Import ssreflect.SsrSyntax.
 \end{lstlisting}
-Note that \ssr{} extended rewrite syntax and reserved identifiers are
+Note that \ssr{}'s extended rewrite syntax and reserved identifiers are
 enabled only if the \C{ssreflect} module has been required and if
 \C{SsrSyntax} has been imported. Thus a file that requires (without importing)
  \C{ssreflect} and imports \C{SsrSyntax}, can be
 required and imported without automatically enabling \ssr{}'s
 extended rewrite syntax and reserved identifiers.
 \item Some user notations (in particular, defining an infix ';') might
-interfere with "open term" syntax of tactics such as \L+have+, \L+set+
-and \L+pose+.
+interfere with the "open term", parenthesis free, syntax of tactics
+such as \L+have+, \L+set+ and \L+pose+.
 \item The generalization of \L+if+ statements to non-Boolean
 conditions is turned off by \ssr{}, because it is mostly subsumed by
 \L+Coercion+ to \L+bool+ of the \L+sum+XXX types (declared in
-\L+ssrfun.v+) and the \C{if $\ \N{term}\ $ is $\ \N{pattern}\ $
+\L+ssrfun.v+)
+\todo{Is this relevant to the partial merge?}
+ and the \C{if $\ \N{term}\ $ is $\ \N{pattern}\ $
   then $\ \N{term}\ $ else $\ \N{term}\ $} construct (see
 \ref{ssec:patcond}). To use the generalized form, turn off the \ssr{}
 Boolean \L+if+ notation using the command:
@@ -80,4 +74,5 @@ Boolean \L+if+ notation using the command:
   Unset SsrRewrite.
   Unset SsrIdents.
 \end{lstlisting}
+\todo{Say something about bullets?}
 \end{itemize}

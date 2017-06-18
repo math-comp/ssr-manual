@@ -31,7 +31,7 @@ be used instead of the default, generated, one. Hence the \ssr{} tactic:
 \begin{lstlisting}
   elim/V.
 \end{lstlisting}
-corresponds to the standard \Coq{} tactic:
+is a synonym for:
 \begin{lstlisting}
   intro top; elim top using V; clear top.
 \end{lstlisting}
@@ -42,7 +42,7 @@ discharge and introduction (see section \ref{sec:book}), the \ssr{} tactic:
 \begin{lstlisting}
   elim/V: x => y.
 \end{lstlisting}
-corresponds to the standard \Coq{} tactic:
+is a synonym for:
 \begin{lstlisting}
   elim x using V; clear x; intro y.
 \end{lstlisting}
@@ -204,8 +204,8 @@ quite frequent to need to decompose the logical interpretation of (the
 boolean expression of) a
 fact, rather than the fact itself.
 This can be achieved by a combination of \C{move : _ => _}
-switches, like in the following script, where \C{||} is a standard
-  \Coq{} notation for the boolean disjunction:
+switches, like in the following script, where \C{||} is a notation for
+the boolean disjunction:
 \begin{lstlisting}
   Variables P Q : bool -> Prop.
   Hypothesis |*P2Q*| : forall a b, P (a || b) -> Q a.
@@ -418,7 +418,7 @@ Expressing logical equivalences through this family of inductive types
 makes possible to take benefit from \emph{rewritable equations}
 associated to the case analysis of \Coq{}'s inductive types.
 
-Since the standard equivalence predicate is defined in \Coq{} as:
+Since the equivalence predicate is defined in \Coq{} as:
 \begin{lstlisting}
   Definition |*iff*| (A B:Prop) := (A -> B) /\ (B -> A).
 \end{lstlisting}

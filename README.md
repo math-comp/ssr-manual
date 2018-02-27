@@ -1,3 +1,7 @@
+
+*This document is now a chapter in the Reference Manual of the Coq Proof Assistant. 
+ The present repository is not updated anymore.*
+
 ### A Small Scale Reflection Extension for the Coq system
 
 This is the user manual of SSReflect, a set of extensions to the proof
